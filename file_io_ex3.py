@@ -1,12 +1,13 @@
 # Here is a program that shows how to open a file and WRITE 
 # information TO it.
-# FileIO Example 2
+# FileIO Example 3
 # Author: Mr. Jugoon
 # Upper Canada College
 
 # Tell the user what the program will do...
 
 print ("This program will open a file and write information to it")
+print ("It will then print the contents to the screen for you to see")
 
 # So as before we will still have to open a file, but this time we
 # specify for the parameter either "w" or "a"
