@@ -8,21 +8,24 @@
 
 print("1. Happy")
 print("2. Sad")
-print("3. Excited")
-print(" ")
-print("Choose one of the options above")
+print("3. Excited\n")
+print("Choose one of the options above\n")
 
 mood = int(input("What is your current mood? \n"))
 
-if mood == 1:
-    print("That's awesome!")
-elif mood == 2:
-    print ("Can I cheer you up?")
-elif mood == 3:
-    print ("I am very happy for you!")
+HAPPY = 1
+SAD = 2
+EXCITED = 3
+
+if mood == HAPPY:
+    print("That's awesome!\n")
+elif mood == SAD:
+    print ("Can I cheer you up?\n")
+elif mood == EXCITED:
+    print ("I am very happy for you!\n")
 else:
     print ("This is not a valid choice")
-    print ("Hope you have a great day anyway!")
+    print ("Hope you have a great day anyway!\n")
 
 
 # This is a way to gracefuuly exit the program

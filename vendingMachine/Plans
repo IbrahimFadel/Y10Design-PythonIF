@@ -1,0 +1,9 @@
+Array of objects, { location: A1, price: $1.50, item: chips }
+Take location as input(A1, A2)
+Take $$$
+Get credit
+Get item
+Subtract from credit
+Ask if wants any other item
+If not return credit in change
+else repeat steps 5-7
