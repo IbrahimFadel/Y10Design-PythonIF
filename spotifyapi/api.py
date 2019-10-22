@@ -76,6 +76,7 @@ def get_user_playlists():
 
     playlists_data = sp.user_playlists(user_id)["items"]
     for playlist in playlists_data:
+        playlist_image_url = playlist["images"][0]["url"]
         playlist_uri = playlist["uri"]
         playlist_name = playlist["name"]
         playlist_tracks = sp.user_playlist_tracks(
@@ -85,6 +86,9 @@ def get_user_playlists():
             name = track["track"]["name"]
             track_uri = track["track"]["uri"]
             artists_data = track["track"]["artists"]
+            explicit = track["track"]["explicit"]
+            image = track["track"]["album"]["images"][0]["url"]
+            # pprint.pprint(track)
             artists_string = ""
             count = 0
             for artist in artists_data:
@@ -96,13 +100,16 @@ def get_user_playlists():
             track = {
                 "name": name,
                 "uri": track_uri,
-                "artists": artists_string
+                "artists": artists_string,
+                "explicit": explicit,
+                "image": image
             }
             tracks.append(track)
 
         playlist_object = {
             "name": playlist_name,
             "uri": playlist_uri,
+            "image": playlist_image_url,
             "tracks": tracks
         }
 
@@ -116,9 +123,26 @@ def writeHtml():
     tracks_list = []
     for playlist in playlists:
         for track in playlist["tracks"]:
-            tracks_list.append("<li>" + track["name"] + "</li>")
-        playlists_list.append(
-            "<div><h1>" + playlist["name"] + "</h1><ul>" + "".join(tracks_list) + "</ul></div>")
+            li = """
+                <li class="track">
+                    <i class="fas fa-play-circle" style="margin-right: 1vw;" onclick="playSong('""" + track["uri"] + """', '""" + track["image"] + """')"></i>
+                    <p>""" + track["name"] + """</p>
+                </li>
+            """
+            tracks_list.append(li)
+
+        html = """
+            <div class="playlist-and-tracks-contaienr">
+                <div onclick="expandPlaylist('""" + playlist["name"] + """')" class="playlist-container">
+                    <img class="playlist-img" src='""" + playlist["image"] + """'>
+                    <h1 class="playlist" id='""" + playlist["name"] + """'>""" + playlist["name"] + """</h1>
+                </div>
+                
+                <ul style="opacity: 0;" class="tracks" id='""" + playlist["name"] + " Tracks" + """'>""" + "".join(tracks_list) + """</ul>
+            </div>
+        """
+
+        playlists_list.append(html)
 
     with open("api.html", "w") as f:
         f.write(f"""
@@ -140,48 +164,14 @@ def writeHtml():
                     <ul>
                         {"".join(playlists_list)}
                     </ul>
+
+                    <img id="current-song-img">
                 </div>
 
                 <script src="api.js"></script>
             </body>
         </html>
         """)
-
-    # tracks_list = []
-    # playlists_list = []
-    # for playlist in playlists:
-    #     for track in playlist["tracks"]:
-    #         tracks_list.append(
-    #             "<li>" + track["name"] + " - " + track["artists"] + "</li>")
-
-    #     playlists_list.append(
-    #         """
-    #         <button type="button" class="collapsible">Content</button>
-    #         <div class="content">
-    #             <ul>
-    #                 """
-    #         + "".join(tracks_list) +
-    #         """
-    #             </ul>
-    #         </div>
-    #     """)
-
-    # with open("api.html", "w") as f:
-    #     f.write("""
-    #     <html>
-    #         <head>
-    #             <link rel='stylesheet' type='text/css' href='style.css'>
-    #         </head>
-    #         <body>
-
-    #             """
-    #             + "".join(playlists_list) +
-    #             """
-
-    #             <script src="script.js"></script>
-    #         </body>
-    #     </html>
-    #     """)
 
 
 if __name__ == "__main__":

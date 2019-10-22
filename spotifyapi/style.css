@@ -77,6 +77,66 @@ div {
 
 #playlists-container {
 	width: 100%;
-	height: 100%;
+	/* height: 100%; */
+	padding-top: 10vh;
+	padding-bottom: 10vh;
 	background-color: #23272a;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	flex-direction: row;
+}
+
+.playlist-and-tracks-container {
+	/* display: flex; */
+	/* justify-content: space-around; */
+	/* flex-direction: row; */
+}
+
+.playlist-container {
+	background-color: #2c2f33;
+	padding: 5px;
+	padding-left: 10px;
+	padding-right: 10px;
+	border-radius: 5px;
+	font-size: 1em;
+	margin-top: 2vh;
+	margin-bottom: 2vh;
+	display: flex;
+	justify-content: space-between;
+	flex-direction: row;
+	align-items: center;
+}
+
+.playlist-container:hover {
+	cursor: pointer;
+}
+
+.playlist-img {
+	max-height: 6vh;
+	border-radius: 2px;
+}
+
+.playlist {
+	font-size: 1em;
+}
+
+.tracks {
+	list-style: none;
+	transition: opacity 1s ease;
+	height: 0;
+	overflow: hidden;
+}
+
+.track {
+	display: flex;
+	justify-content: left;
+	flex-direction: row;
+	align-items: center;
+	margin-top: 2vh;
+	margin-bottom: 2vh;
+}
+
+.fa-play-circle:hover {
+	cursor: pointer;
 }
