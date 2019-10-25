@@ -7,7 +7,7 @@ import socketserver
 import threading
 import requests
 import pprint
-
+import os
 # Fran 4yl7kkzpfw9vcyz5tnhtyn9qp
 
 conf = None
@@ -18,9 +18,11 @@ consts = None
 client_id = None
 client_secret = None
 redirect_uri = None
+web_player_token = None
 
 scope = "user-library-read user-library-modify"
 sp = None
+token = None
 
 PORT = 1234
 Handler = http.server.SimpleHTTPRequestHandler
@@ -37,30 +39,34 @@ def get_config():
 
 
 def get_constants():
-    global consts, client_id, client_secret, redirect_uri
+    global consts, client_id, client_secret, redirect_uri, web_player_token
     with open("constants.json", "r") as f:
         consts = json.loads(f.read())
         client_id = consts["client_id"]
         client_secret = consts["client_secret"]
         redirect_uri = consts["redirect_uri"]
+        web_player_token = consts["web_player_token"]
 
 
 def authenticate():
+    global web_player_token
     with socketserver.TCPServer(("", PORT), Handler) as httpd:
         print("Server running on port", PORT)
         threading.Thread(target=httpd.serve_forever).start()
 
         get_user_token()
+        os.system(f"node server.js {web_player_token}")
 
         httpd.shutdown()
 
 
 def get_user_token():
-    global username, client_id, client_secret, redirect_uri, sp
+    global username, client_id, client_secret, redirect_uri, sp, token
     print(username, scope, client_id, client_secret, redirect_uri)
 
     token = util.prompt_for_user_token(
         username, scope, client_id, client_secret, redirect_uri)
+    print(token)
 
     if token:
         sp = spotipy.Spotify(auth=token)
@@ -87,7 +93,10 @@ def get_user_playlists():
             track_uri = track["track"]["uri"]
             artists_data = track["track"]["artists"]
             explicit = track["track"]["explicit"]
-            image = track["track"]["album"]["images"][0]["url"]
+            if len(track["track"]["album"]["images"]) > 0:
+                image = track["track"]["album"]["images"][0]["url"]
+            else:
+                image = ""
             # pprint.pprint(track)
             artists_string = ""
             count = 0
@@ -158,6 +167,8 @@ def writeHtml():
                 <i class="fas fa-volume-mute" style="display: none;" id="muted" onclick="unmute()"></i>
                 <div id="welcome-container">
                     <h1 class="animateMe fadeInSlow" id="welcome">Welcome, {username}</h1>
+
+                    <i class="fas fa-arrow-circle-down animateMe fadeInSlow" id="arrow-down" onclick="scrollDown()"></i>
                 </div>
 
                 <div id="playlists-container">
@@ -168,7 +179,8 @@ def writeHtml():
                     <img id="current-song-img">
                 </div>
 
-                <script src="api.js"></script>
+                <script defer src="scroll.js"></script> 
+                <script defer src="api.js"></script>
             </body>
         </html>
         """)

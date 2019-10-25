@@ -1,5 +1,6 @@
 {
 	"client_id": "ffc8866bd65f416bba1b2595efc800cf",
 	"client_secret": "6830e665791d4c2c8c34b897e25b05f3",
-	"redirect_uri": "http://localhost:1234/callback/"
+	"redirect_uri": "http://localhost:1234/callback/",
+	"web_player_token": "BQBJEhm1fZZ0DwaB4HL3ZM-X0p9ywqSVoc-TxKHkAYkr7KwU-zHAyP7aUcey2p8gaDLEig4Eqqe259BSFx-KA403eUsRPOQhvxThagZVvbMN7q24ScnwCfJoLl9puifED_nuH5QCNwIpH8cro6zgqVQihxBhEaE2rhO2VBHqvuTRtrldtZ8aQw"
 }

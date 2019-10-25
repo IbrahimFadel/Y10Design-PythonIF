@@ -11,6 +11,10 @@ function unmute() {
 	document.getElementById("muted").style.display = "none";
 }
 
+function scrollDown() {
+	document.getElementById("playlists-container").scrollIntoView();
+}
+
 let count = 0;
 
 function expandPlaylist(name) {
@@ -19,18 +23,22 @@ function expandPlaylist(name) {
 
 	if (count % 2 == 0) {
 		tracksUl.style.opacity = "1";
-		tracksUl.style.height = "auto";
+		tracksUl.style.height = "80vh";
+		tracksUl.style.overflow = "scroll";
 	} else {
+		const img = document.getElementById("current-song-img");
 		tracksUl.style.opacity = "0";
+		img.style.opacity = "0";
 		setTimeout(() => {
 			tracksUl.style.height = "0";
+			img.src = "";
 		}, 1000);
 	}
 	count++;
 }
 
 function playSong(uri, image) {
-	console.log(uri, image);
-
-	document.getElementById("current-song-img").src = image;
+	const img = document.getElementById("current-song-img");
+	img.src = image;
+	img.style.opacity = "1";
 }
