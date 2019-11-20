@@ -1,0 +1,45 @@
+#nav {
+	background-color: #2c2f33;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	flex-direction: row;
+	height: 8vh;
+}
+
+#title {
+	color: white;
+	text-transform: uppercase;
+	letter-spacing: 5px;
+}
+
+#list {
+	display: flex;
+	justify-content: space-evenly;
+	flex-direction: row;
+	width: 30%;
+	color: white;
+	list-style: none;
+}
+
+.listItemContainer {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+
+.listItemContainer:hover {
+	cursor: pointer;
+}
+
+.listItemUnderline {
+	background-color: white;
+	height: 2px;
+	width: 0px;
+	transition: width 0.5s ease;
+}
+
+.listItemUnderlineActive {
+	width: 100%;
+}

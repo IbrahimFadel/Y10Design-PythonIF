@@ -1,0 +1,98 @@
+<!-- Welcome to some sample code to control your Firebase Database -->
+<!-- HERE IS YOUR HTML TO SET UP YOUR PAGE -->
+<html>
+	<head>
+		<!-- HERE ARE YOUR FIREBASE and GOOGLE AUTHENICATION IMPORTS -->
+		<script src="https://www.gstatic.com/firebasejs/5.7.3/firebase.js"></script>
+		<script src="https://apis.google.com/js/platform.js" async defer></script>
+	</head>
+	<body>
+		<h1 id="uid"></h1>
+
+		<!-- HERE IS YOUR HTML CODE TO SET TEXT -->
+		<h3>
+			A demonstration of how to use a Text Field to add information to the
+			Database
+		</h3>
+
+		<input type="text" id="newName" value="Enter name" />
+
+		<button onclick="signin()">Sign in</button>
+		<button onclick="setData()">Set data</button>
+		<button onclick="getData()">Get data</button>
+
+		<p id="myName"></p>
+		<p id="myData"></p>
+
+		<div id="info"></div>
+	</body>
+
+	<!-- HERE IS THE JAVASCRIPT TO CONNECT TO YOUR FIREBASE -->
+	<script>
+		// Your web app's Firebase configuration
+		var config = {
+			///// COPY AND PASTE YOUR FIREBASE CONFIGURATION DATA HERE /////
+
+			apiKey: "AIzaSyBV4uvEpXu1tx6gxspdYpTHfDukbxNNqPU",
+			authDomain: "ucc2019-7cd5c.firebaseapp.com",
+			databaseURL: "https://ucc2019-7cd5c.firebaseio.com",
+			projectId: "ucc2019-7cd5c",
+			storageBucket: "ucc2019-7cd5c.appspot.com",
+			messagingSenderId: "818178378478",
+			appId: "1:818178378478:web:f4fff678cd5d1f2f4d81ff",
+			measurementId: "G-PMBVQR80WJ",
+
+			///// COPY AND PASTE YOUR FIREBASE CONFIGURATION DATA HERE /////
+		};
+		firebase.initializeApp(config);
+
+		// Check to see if you are logged in
+		firebase.auth().onAuthStateChanged(user => {
+			if (user == null) {
+				document.getElementById("uid").innerHTML = "not logged in";
+				return;
+			} else {
+				userId = user.uid; // you can also get .displayName, .photoURL, .email
+				document.getElementById("uid").innerHTML = userId; // display Google uid on page
+			} // end user null check
+		}); // end check auth state
+
+		// HERE IS THE FUNCTION TO SHOW HOW TO GET USER DATA
+		function getData() {
+			var userId = document.getElementById("uid").innerHTML;
+			firebase
+				.database()
+				.ref("/" + userId)
+				.once("value", snapshot => {
+					document.getElementById("myData").innerHTML = snapshot.val().teacher;
+					console.log(snapshot.val().teacher);
+					console.log(snapshot.val().email);
+				});
+		}
+
+		// HERE IS THE FUNCTION TO SHOW HOW TO SET/OVERWRITE USER DATA
+		function setData() {
+			var x = document.getElementById("newName").value;
+			var x_email = x + "@gmail.com";
+
+			document.getElementById("myName").innerHTML = x;
+			firebase
+				.database()
+				.ref("/" + userId)
+				.set({
+					teacher: x,
+					email: x_email,
+				});
+		}
+
+		function signin() {
+			var provider = new firebase.auth.GoogleAuthProvider();
+			firebase
+				.auth()
+				.signInWithRedirect(provider)
+				.then(result => {
+					window.location.replace("fbtest.html");
+				});
+		}
+	</script>
+</html>
