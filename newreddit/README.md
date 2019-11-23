@@ -8,6 +8,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 git clone https://github.com/IbrahimFadel/Y10Design-PythonIF.git && cd Y10Design-PythonIF/newreddit
 ```
 
+**Use npm or yarn - not both**
+
 ## Install dependencies
 
 ```
@@ -22,4 +24,9 @@ npm i
 
 ```
 yarn start
+```
+or
+
+```
+npm run start
 ```
