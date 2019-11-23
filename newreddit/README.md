@@ -5,7 +5,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ## To use this project
 
 ```
-git clone url && cd newreddit
+git clone https://github.com/IbrahimFadel/Y10Design-PythonIF.git && cd Y10Design-PythonIF/newreddit
 npm i #Installs all dependencies
 ```
 
