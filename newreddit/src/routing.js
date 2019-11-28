@@ -7,6 +7,8 @@ const router = (
 	<Router>
 		<Switch>
 			<Route exact path="/" component={views.Home}></Route>
+			<Route path="/login" component={views.Login}></Route>
+			<Route path="/signup" component={views.Signup}></Route>
 		</Switch>
 	</Router>
 );

@@ -43,3 +43,12 @@
 .listItemUnderlineActive {
 	width: 100%;
 }
+
+.link {
+	color: white;
+	text-decoration: none;
+}
+
+.link:after {
+	color: white;
+}

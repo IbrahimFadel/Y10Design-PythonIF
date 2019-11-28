@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 import styles from "./styles.module.scss";
 
@@ -23,10 +24,12 @@ export default class Navbar extends React.Component {
 		return (
 			<div>
 				<nav id={styles.nav}>
-					<h1 id={styles.title}>newreddit</h1>
+					<h1 id={styles.title}>bluelook</h1>
 					<ul id={styles.list}>
 						<div className={styles.listItemContainer}>
-							<li>test</li>
+							<Link to="/" className={styles.link}>
+								<li>test</li>
+							</Link>
 							<div className={styles.listItemUnderline}></div>
 						</div>
 						<div className={styles.listItemContainer}>
@@ -38,7 +41,9 @@ export default class Navbar extends React.Component {
 							<div className={styles.listItemUnderline}></div>
 						</div>
 						<div className={styles.listItemContainer}>
-							<li>Login/Signup</li>
+							<Link to="/login" className={styles.link}>
+								<li>Login/Signup</li>
+							</Link>
 							<div className={styles.listItemUnderline}></div>
 						</div>
 					</ul>
