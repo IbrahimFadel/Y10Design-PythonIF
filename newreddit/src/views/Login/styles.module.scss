@@ -60,3 +60,28 @@
 .underlineActive {
 	width: 100% !important;
 }
+
+#loggedInContainer {
+	width: 40%;
+	height: 30vh;
+	background-color: #2c2f33;
+	color: white;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 15vh;
+	padding: 10px;
+	border-radius: 5px;
+	display: flex;
+	justify-content: space-around;
+	flex-direction: column;
+	align-items: center;
+}
+
+#loggedInTitle {
+}
+
+#logOut {
+	color: white;
+	// text-align: center;
+	cursor: pointer;
+}

@@ -1,7 +1,7 @@
-import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-import views from "./views/index.js";
+import views from './views/index.js';
 
 const router = (
 	<Router>
@@ -9,6 +9,9 @@ const router = (
 			<Route exact path="/" component={views.Home}></Route>
 			<Route path="/login" component={views.Login}></Route>
 			<Route path="/signup" component={views.Signup}></Route>
+			<Route path="/communities" component={views.Communities}></Route>
+			<Route exact path="/create" component={views.Create}></Route>
+			<Route path="/create/community" component={views.CreateCommunity}></Route>
 		</Switch>
 	</Router>
 );

@@ -3,9 +3,19 @@ import { Link } from 'react-router-dom';
 
 import styles from './styles.module.scss';
 import Navbar from '../../components/Navbar/Navbar';
-import Button from '../../components/Button/Button';
+import { Light } from '../../components/Button/Buttons';
 
 export default class Signup extends React.Component {
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			username: null,
+			email: null,
+			password: null,
+		};
+	}
+
 	componentDidMount() {
 		const login = document.getElementById(styles.link);
 		login.addEventListener('mouseenter', () => {
@@ -20,11 +30,17 @@ export default class Signup extends React.Component {
 		});
 	}
 
+	clearInputs() {
+		document.getElementById('usernameInput').value = '';
+		document.getElementById('emailInput').value = '';
+		document.getElementById('passwordInput').value = '';
+	}
+
 	render() {
 		return (
 			<div>
 				<Navbar></Navbar>
-				<h1 id={styles.title}>Login</h1>
+				<h1 id={styles.title}>Signup</h1>
 				<form id={styles.form}>
 					<div id={styles.linkContainer}>
 						<Link to="/login" id={styles.link}>
@@ -34,14 +50,32 @@ export default class Signup extends React.Component {
 					</div>
 					<div id={styles.inputs}>
 						<label>Username</label>
-						<input type="text" className={styles.input}></input>
+						<input
+							type="text"
+							className={styles.input}
+							id="usernameInput"
+						></input>
 						<label>Email</label>
-						<input type="text" className={styles.input}></input>
+						<input type="text" className={styles.input} id="emailInput"></input>
 						<label>Password</label>
-						<input type="password" className={styles.input}></input>
+						<input
+							type="password"
+							className={styles.input}
+							id="passwordInput"
+						></input>
 					</div>
 					<div>
-						<Button type="dark" text="Signup"></Button>
+						<Light
+							text="Signup"
+							onClick={() => {
+								this.props.signup({
+									username: document.getElementById('usernameInput').value,
+									email: document.getElementById('emailInput').value,
+									password: document.getElementById('passwordInput').value,
+								});
+								this.clearInputs();
+							}}
+						></Light>
 					</div>
 				</form>
 			</div>

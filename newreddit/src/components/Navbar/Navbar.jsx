@@ -1,7 +1,7 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { Link } from 'react-router-dom';
 
-import styles from "./styles.module.scss";
+import styles from './styles.module.scss';
 
 export default class Navbar extends React.Component {
 	componentDidMount() {
@@ -11,10 +11,10 @@ export default class Navbar extends React.Component {
 	handleUnderlines() {
 		const listItems = document.getElementsByClassName(styles.listItemContainer);
 		for (let item of listItems) {
-			item.addEventListener("mouseenter", e => {
+			item.addEventListener('mouseenter', (e) => {
 				item.children[1].classList.add(styles.listItemUnderlineActive);
 			});
-			item.addEventListener("mouseleave", () => {
+			item.addEventListener('mouseleave', () => {
 				item.children[1].classList.remove(styles.listItemUnderlineActive);
 			});
 		}
@@ -24,11 +24,13 @@ export default class Navbar extends React.Component {
 		return (
 			<div>
 				<nav id={styles.nav}>
-					<h1 id={styles.title}>bluelook</h1>
-					<ul id={styles.list}>
+					<Link to="/" className={styles.link}>
+						<h1 id={styles.title}>bluelook</h1>
+					</Link>
+					<ul className={styles.list}>
 						<div className={styles.listItemContainer}>
-							<Link to="/" className={styles.link}>
-								<li>test</li>
+							<Link to="/communities" className={styles.link}>
+								<li>Communities</li>
 							</Link>
 							<div className={styles.listItemUnderline}></div>
 						</div>
@@ -47,6 +49,16 @@ export default class Navbar extends React.Component {
 							<div className={styles.listItemUnderline}></div>
 						</div>
 					</ul>
+					<div>
+						<ul className={styles.list}>
+							<div className={styles.listItemContainer}>
+								<Link to="/create" className={styles.link}>
+									<li>Create</li>
+								</Link>
+								<div className={styles.listItemUnderline}></div>
+							</div>
+						</ul>
+					</div>
 				</nav>
 			</div>
 		);

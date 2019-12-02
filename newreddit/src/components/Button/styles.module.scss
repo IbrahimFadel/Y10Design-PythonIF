@@ -1,3 +1,22 @@
 .button {
-	background: black;
+	border-radius: 5px;
+	padding: 10px;
+	cursor: pointer;
+	font-family: GB;
+	letter-spacing: 1px;
+	border: none;
+	width: 16%;
+}
+
+.button:hover {
+	cursor: pointer;
+}
+
+.dark {
+	border-radius: 4px;
+	background: #2c2f33;
+}
+
+.light {
+	background: #d8d8d8;
 }

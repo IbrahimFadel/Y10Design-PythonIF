@@ -1,0 +1,22 @@
+@import '../../variables.scss';
+
+#title {
+	margin-top: 5vh;
+	text-align: center;
+}
+
+.button {
+	height: 10%;
+}
+
+#container {
+	width: 40%;
+	height: 30vh;
+	background-color: $dark;
+	border-radius: 5px;
+	margin: 5vh auto 0 auto;
+	padding: 15px;
+	display: flex;
+	justify-content: center;
+	flex-direction: row;
+}
