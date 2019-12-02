@@ -8,7 +8,9 @@ export default class Searchbar extends React.Component {
 			<input
 				type="text"
 				placeholder="Search for a community..."
-				id={styles.input}
+				className={styles.input}
+				onChange={this.props.onChange}
+				id={this.props.id}
 			></input>
 		);
 	}

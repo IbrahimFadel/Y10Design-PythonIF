@@ -52,21 +52,6 @@
 	font-size: 1em;
 }
 
-#radiosContainer {
-	display: flex;
-	justify-content: space-around;
-	flex-direction: column;
-	// display: flex;
-	// justify-content: left;
-	// flex-direction: column;
-}
-
-.radioContainer {
-	display: flex;
-	justify-content: left;
-	column-gap: 5px;
-	// display: flex;
-	// justify-content: left;
-	// flex-direction: row;
-	// column-gap: 0.8vw;
+#select {
+	width: 30%;
 }

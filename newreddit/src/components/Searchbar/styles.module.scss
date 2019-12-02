@@ -1,4 +1,4 @@
-#input {
+.input {
 	border-radius: 5px;
 	background-color: #00000000;
 	width: 100%;
@@ -8,6 +8,6 @@
 	font-size: 1.2em;
 }
 
-#input:focus {
+.input:focus {
 	outline: none;
 }
