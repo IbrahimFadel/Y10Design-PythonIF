@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import Navbar from '../../components/Navbar/Navbar';
 import Searchbar from '../../components/Searchbar/Searchbar';
@@ -23,19 +24,30 @@ export default class Communities extends React.Component {
 					{this.props.results.map((community, i) => {
 						return (
 							<div key={i} className={styles.community}>
-								<div className={styles.communityInfo}>
+								<div
+									className={styles.communityInfo}
+									id={styles.info}
+									style={{ flexGrow: '2' }}
+								>
 									<h1>{community.name}</h1>
 									<div>
 										<p>{community.description}</p>
 									</div>
 								</div>
-								<div className={styles.communityInfo}>
+								<div className={styles.communityInfo} id={styles.buttons}>
 									<div id={styles.communityButtons}>
 										<div>
 											<Light text="Join"></Light>
 										</div>
 										<div>
-											<Light text="View"></Light>
+											<Link
+												to={{
+													pathname: `/communities/${community.name}`,
+													state: community,
+												}}
+											>
+												<Light text="View"></Light>
+											</Link>
 										</div>
 									</div>
 								</div>

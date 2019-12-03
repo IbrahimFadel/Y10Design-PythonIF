@@ -28,6 +28,7 @@ export function createCommunity({ name, description, type }, cb, error) {
 			name,
 			description,
 			type,
+			posts: [],
 		})
 		.then(() => {
 			cb();

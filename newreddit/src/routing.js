@@ -9,7 +9,8 @@ const router = (
 			<Route exact path="/" component={views.Home}></Route>
 			<Route path="/login" component={views.Login}></Route>
 			<Route path="/signup" component={views.Signup}></Route>
-			<Route path="/communities" component={views.Communities}></Route>
+			<Route exact path="/communities" component={views.Communities}></Route>
+			<Route path="/communities/:handle" component={views.Community}></Route>
 			<Route exact path="/create" component={views.Create}></Route>
 			<Route path="/create/community" component={views.CreateCommunity}></Route>
 		</Switch>

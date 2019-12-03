@@ -4,6 +4,7 @@ import SignupContainer from './Signup/SignupContainer';
 import CommunitiesContainer from './Communities/CommunitiesContainer';
 import CreateContainer from './Create/CreateContainer';
 import CreateCommunityContainer from './CreateCommunity/CreateCommunityContainer';
+import CommunityContainer from './Community/CommunityContainer';
 
 const views = {
 	Home: Home,
@@ -12,6 +13,7 @@ const views = {
 	Communities: CommunitiesContainer,
 	Create: CreateContainer,
 	CreateCommunity: CreateCommunityContainer,
+	Community: CommunityContainer,
 };
 
 export default views;
