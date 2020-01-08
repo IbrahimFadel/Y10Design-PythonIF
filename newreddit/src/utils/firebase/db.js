@@ -1,3 +1,4 @@
+import Swal from 'sweetalert2';
 import { db } from './firebase';
 
 export async function communityExists(name) {
@@ -55,5 +56,40 @@ export async function getCommunitiesByName(name) {
 				}
 			});
 			return matchingCommunities;
+		});
+}
+
+export async function createPost({ title, body, owner, __community }) {
+	const ref = db.ref('/communities');
+	ref
+		.once('value')
+		.then((communities) => {
+			let i = 0;
+			communities.forEach((_community) => {
+				const community = _community.val();
+				if (community.name == __community) {
+					let posts;
+					try {
+						posts = community.posts;
+						posts.push({ title, body, owner });
+					} catch {
+						posts = [{ title, body, owner }];
+					}
+					db.ref(`/communities/${Object.keys(communities.val())[i]}`).set({
+						posts,
+						description: community.description,
+						name: community.name,
+						type: community.type,
+					});
+					i++;
+				}
+			});
+		})
+		.then(() => {
+			Swal.fire(
+				'Sucess',
+				`You successfully posted to ${__community}!`,
+				'success',
+			);
 		});
 }

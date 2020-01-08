@@ -1,8 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import Navbar from '../../components/Navbar/Navbar';
 import styles from './styles.module.scss';
 import { Dark } from '../../components/Button/Buttons';
+
+let commentSectionLink;
 
 export default class Community extends React.Component {
 	constructor(props) {
@@ -12,8 +15,15 @@ export default class Community extends React.Component {
 			name: this.props.community.name,
 			description: this.props.community.description,
 			type: this.props.community.type,
-			posts: this.props.community.posts,
+			posts:
+				this.props.community.posts === undefined
+					? []
+					: this.props.community.posts,
 		};
+	}
+
+	componentDidMount() {
+		commentSectionLink = `/communities/${this.state.name}/comments`;
 	}
 
 	render() {
@@ -25,15 +35,28 @@ export default class Community extends React.Component {
 				<p id={styles.description}>{this.state.description}</p>
 
 				<div id={styles.postButton}>
-					<Dark text="Post"></Dark>
+					<Link
+						to={{
+							pathname: '/post',
+							state: this.state,
+						}}
+					>
+						<Dark text="Post"></Dark>
+					</Link>
 				</div>
 
-				<div>
-					{!this.state.posts ? <h1>No Posts!</h1> : <div />}
+				<div id={styles.posts}>
 					{this.state.posts.map((post, i) => {
+						console.log(post);
 						return (
-							<div>
+							<div key={i} className={styles.postContainer}>
 								<h1>{post.title}</h1>
+								<hr className={styles.seperator}></hr>
+								<p>{post.body}</p>
+								<br></br>
+								<Link to={commentSectionLink}>
+									<p className={styles.postLink}>Comments</p>
+								</Link>
 							</div>
 						);
 					})}

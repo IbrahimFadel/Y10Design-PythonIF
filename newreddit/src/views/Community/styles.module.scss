@@ -1,3 +1,5 @@
+@import '../../variables.scss';
+
 #title {
 	margin-top: 5vh;
 	text-align: center;
@@ -13,4 +15,32 @@
 	position: absolute;
 	top: 15vh;
 	right: 5vw;
+}
+
+#posts {
+	width: 100vw;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	margin-top: 7vh;
+}
+
+.postContainer {
+	width: 50vw;
+	max-height: 40vh;
+	background-color: $light;
+	padding: 10px;
+}
+
+.seperator {
+	width: 100%;
+	background-color: $dark;
+	margin-top: 1vh;
+	margin-bottom: 1vh;
+}
+
+.postLink {
+	font-weight: bold;
+	cursor: pointer;
 }
