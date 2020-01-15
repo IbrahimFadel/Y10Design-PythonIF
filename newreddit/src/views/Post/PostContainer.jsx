@@ -1,59 +1,21 @@
 import React from 'react';
+import { useParams } from 'react-router-dom';
 
 import Post from './Post';
-import { auth } from '../../utils/firebase/firebase';
-import { createPost } from '../../utils/firebase/db';
 
 export default class PostContainer extends React.Component {
 	constructor(props) {
 		super(props);
 
-		this.state = {
-			postType: 'text',
-			uid: undefined,
-		};
+		this.state = {};
 	}
 
 	componentDidMount() {
-		auth.onAuthStateChanged((user) => {
-			if (user) {
-				this.setState({
-					uid: user.uid,
-				});
-			} else {
-				this.setState({
-					uid: undefined,
-				});
-			}
-		});
+		let { id } = useParams();
+		console.log(id);
+		// console.log(this.props.location.state);
 	}
-
-	postTypeChanged = (postType) => {
-		this.setState({
-			postType,
-		});
-	};
-
-	createPost = ({ title, body, owner, community }) => {
-		createPost({
-			title,
-			body,
-			owner,
-			__community: community,
-		}).then(() => {
-			this.props.history.push(`/`);
-		});
-	};
-
 	render() {
-		return (
-			<Post
-				community={this.props.location.state}
-				postType={this.state.postType}
-				postTypeChanged={this.postTypeChanged}
-				uid={this.state.uid}
-				createPost={this.createPost}
-			></Post>
-		);
+		return <Post></Post>;
 	}
 }

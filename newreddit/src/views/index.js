@@ -5,6 +5,7 @@ import CommunitiesContainer from './Communities/CommunitiesContainer';
 import CreateContainer from './Create/CreateContainer';
 import CreateCommunityContainer from './CreateCommunity/CreateCommunityContainer';
 import CommunityContainer from './Community/CommunityContainer';
+import CreatePostContainer from './CreatePost/CreatePostContainer';
 import PostContainer from './Post/PostContainer';
 
 const views = {
@@ -15,6 +16,7 @@ const views = {
 	Create: CreateContainer,
 	CreateCommunity: CreateCommunityContainer,
 	Community: CommunityContainer,
+	CreatePost: CreatePostContainer,
 	Post: PostContainer,
 };
 

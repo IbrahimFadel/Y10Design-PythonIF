@@ -19,11 +19,12 @@ export default class Community extends React.Component {
 				this.props.community.posts === undefined
 					? []
 					: this.props.community.posts,
+			user: this.props.user,
 		};
 	}
 
 	componentDidMount() {
-		commentSectionLink = `/communities/${this.state.name}/comments`;
+		commentSectionLink = `/communities/${this.state.name}/post/`;
 	}
 
 	render() {
@@ -47,14 +48,13 @@ export default class Community extends React.Component {
 
 				<div id={styles.posts}>
 					{this.state.posts.map((post, i) => {
-						console.log(post);
 						return (
 							<div key={i} className={styles.postContainer}>
 								<h1>{post.title}</h1>
 								<hr className={styles.seperator}></hr>
 								<p>{post.body}</p>
 								<br></br>
-								<Link to={commentSectionLink}>
+								<Link to={`${commentSectionLink}${post.url}`}>
 									<p className={styles.postLink}>Comments</p>
 								</Link>
 							</div>

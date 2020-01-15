@@ -59,8 +59,55 @@ export async function getCommunitiesByName(name) {
 		});
 }
 
+function d2h(d) {
+	return d.toString(16);
+}
+
+function h2d(h) {
+	return parseInt(h, 16);
+}
+
+function stringToHex(tmp) {
+	var str = '',
+		i = 0,
+		tmp_len = tmp.length,
+		c;
+
+	for (; i < tmp_len; i += 1) {
+		c = tmp.charCodeAt(i);
+		str += d2h(c) + ' ';
+	}
+	return str;
+}
+
+function hexToString(tmp) {
+	var arr = tmp.split(' '),
+		str = '',
+		i = 0,
+		arr_len = arr.length,
+		c;
+
+	for (; i < arr_len; i += 1) {
+		c = String.fromCharCode(h2d(arr[i]));
+		str += c;
+	}
+
+	return str;
+}
+
+function ascii_to_hexa(str) {
+	var arr1 = [];
+	for (var n = 0, l = str.length; n < l; n++) {
+		var hex = Number(str.charCodeAt(n)).toString(16);
+		arr1.push(hex);
+	}
+	return arr1.join('');
+}
+
 export async function createPost({ title, body, owner, __community }) {
 	const ref = db.ref('/communities');
+	let url = `${ascii_to_hexa(owner)} ${ascii_to_hexa(title)}`;
+	console.log(url);
 	ref
 		.once('value')
 		.then((communities) => {
@@ -69,11 +116,12 @@ export async function createPost({ title, body, owner, __community }) {
 				const community = _community.val();
 				if (community.name == __community) {
 					let posts;
+					console.log(owner, title);
 					try {
 						posts = community.posts;
-						posts.push({ title, body, owner });
+						posts.push({ title, body, owner, url });
 					} catch {
-						posts = [{ title, body, owner }];
+						posts = [{ title, body, owner, url }];
 					}
 					db.ref(`/communities/${Object.keys(communities.val())[i]}`).set({
 						posts,
