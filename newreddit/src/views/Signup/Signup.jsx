@@ -63,6 +63,11 @@ export default class Signup extends React.Component {
 							className={styles.input}
 							id="passwordInput"
 						></input>
+						<label>Account type</label>
+						<select className={styles.input} id="typeInput">
+							<option>Public</option>
+							<option>Private</option>
+						</select>
 					</div>
 					<div>
 						<Light
@@ -72,6 +77,7 @@ export default class Signup extends React.Component {
 									username: document.getElementById('usernameInput').value,
 									email: document.getElementById('emailInput').value,
 									password: document.getElementById('passwordInput').value,
+									type: document.getElementById('typeInput').value,
 								});
 								this.clearInputs();
 							}}

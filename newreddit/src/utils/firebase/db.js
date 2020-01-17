@@ -141,3 +141,41 @@ export async function createPost({ title, body, owner, __community }) {
 			);
 		});
 }
+
+export async function isUserPublic(uid) {
+	let isPublic = false;
+	return db
+		.ref('/users')
+		.once('value')
+		.then((_users) => {
+			_users.forEach((_user) => {
+				const user = _user.val();
+
+				if (user.uid == uid) {
+					isPublic = true;
+				}
+			});
+		})
+		.then(() => {
+			return isPublic;
+		});
+}
+
+export async function getUsernameWithUid(uid) {
+	let username;
+	return db
+		.ref('/users')
+		.once('value')
+		.then((_users) => {
+			_users.forEach((_user) => {
+				const user = _user.val();
+
+				if (user.uid == uid) {
+					username = user.username;
+				}
+			});
+		})
+		.then(() => {
+			return username;
+		});
+}

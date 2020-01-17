@@ -1,21 +1,35 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
 
 import Post from './Post';
+import { isUserPublic, getUsernameWithUid } from '../../utils/firebase/db';
 
 export default class PostContainer extends React.Component {
 	constructor(props) {
 		super(props);
 
-		this.state = {};
+		this.state = {
+			username: null,
+		};
 	}
 
-	componentDidMount() {
-		let { id } = useParams();
-		console.log(id);
-		// console.log(this.props.location.state);
+	async componentDidMount() {
+		const isPublic = await isUserPublic(this.props.location.state.owner);
+		if (isPublic) {
+			const username = await getUsernameWithUid(
+				this.props.location.state.owner,
+			);
+			console.log(username);
+			this.setState({
+				username,
+			});
+		}
 	}
 	render() {
-		return <Post></Post>;
+		return (
+			<Post
+				post={this.props.location.state}
+				username={this.state.username}
+			></Post>
+		);
 	}
 }

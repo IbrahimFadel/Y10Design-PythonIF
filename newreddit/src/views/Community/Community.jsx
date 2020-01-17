@@ -54,7 +54,12 @@ export default class Community extends React.Component {
 								<hr className={styles.seperator}></hr>
 								<p>{post.body}</p>
 								<br></br>
-								<Link to={`${commentSectionLink}${post.url}`}>
+								<Link
+									to={{
+										pathname: `${commentSectionLink}${post.url}`,
+										state: this.state.posts[i],
+									}}
+								>
 									<p className={styles.postLink}>Comments</p>
 								</Link>
 							</div>

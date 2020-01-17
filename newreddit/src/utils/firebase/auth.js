@@ -1,7 +1,7 @@
 import firebase from './firebase';
 import Swal from 'sweetalert2';
 
-export function createUser({ username, email, password }) {
+export function createUser({ username, email, password, type }) {
 	let newUser = undefined;
 	let ableToCreateUser = true;
 
@@ -31,9 +31,10 @@ export function createUser({ username, email, password }) {
 					.then((user) => {
 						if (ableToCreateUser) {
 							newUser = {
-								email: email,
+								email,
 								uid: user.user.uid,
-								username: username,
+								username,
+								type,
 							};
 						}
 					})
