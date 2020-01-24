@@ -8,6 +8,7 @@ export default class PostContainer extends React.Component {
 		super(props);
 
 		this.state = {
+			ready: false,
 			username: null,
 		};
 	}
@@ -18,18 +19,22 @@ export default class PostContainer extends React.Component {
 			const username = await getUsernameWithUid(
 				this.props.location.state.owner,
 			);
-			console.log(username);
 			this.setState({
 				username,
+				ready: true,
 			});
 		}
 	}
 	render() {
-		return (
-			<Post
-				post={this.props.location.state}
-				username={this.state.username}
-			></Post>
-		);
+		if (this.state.ready) {
+			return (
+				<Post
+					post={this.props.location.state}
+					username={this.state.username}
+				></Post>
+			);
+		} else {
+			return <h1>Loading...</h1>;
+		}
 	}
 }
