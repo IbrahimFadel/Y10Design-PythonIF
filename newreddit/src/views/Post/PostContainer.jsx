@@ -1,7 +1,11 @@
 import React from 'react';
 
 import Post from './Post';
-import { isUserPublic, getUsernameWithUid } from '../../utils/firebase/db';
+import {
+	isUserPublic,
+	getUsernameWithUid,
+	postComment,
+} from '../../utils/firebase/db';
 
 export default class PostContainer extends React.Component {
 	constructor(props) {
@@ -25,12 +29,19 @@ export default class PostContainer extends React.Component {
 			});
 		}
 	}
+
+	postComment = ({ comment, owner }) => {
+		console.log('container');
+		postComment({ comment, owner, community: this.props.location.state.name });
+	};
+
 	render() {
 		if (this.state.ready) {
 			return (
 				<Post
 					post={this.props.location.state}
 					username={this.state.username}
+					postComment={this.postComment}
 				></Post>
 			);
 		} else {

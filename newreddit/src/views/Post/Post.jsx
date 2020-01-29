@@ -16,6 +16,15 @@ export default class Post extends React.Component {
 		};
 	}
 
+	postComment = () => {
+		const comment = document.getElementById(style.commentTextarea).value;
+		console.log('Post: ', comment);
+		this.props.postComment({
+			comment,
+			owner: this.state.owner,
+		});
+	};
+
 	render() {
 		const { title, body, owner, username } = this.state;
 		return (
@@ -25,7 +34,6 @@ export default class Post extends React.Component {
 				<div id={style.container}>
 					<div id={style.bodyContainer}>
 						<hr id={style.hr}></hr>
-
 						<h1 id={style.title}>{title}</h1>
 						<hr id={style.hr}></hr>
 
@@ -44,7 +52,7 @@ export default class Post extends React.Component {
 
 					<div id={style.commentContainer}>
 						<textarea id={style.commentTextarea}></textarea>
-						<Light text="Comment"></Light>
+						<Light text="Comment" onclick={this.postComment}></Light>
 					</div>
 				</div>
 			</div>

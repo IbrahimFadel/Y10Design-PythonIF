@@ -5,14 +5,14 @@ export async function communityExists(name) {
 	const exists = await db
 		.ref('/communities')
 		.once('value')
-		.then((communities) => {
+		.then(communities => {
 			const amntCommunities = communities.numChildren();
 			if (amntCommunities === 0) {
 				return false;
 			}
 			let i = 0;
 			let exists = true;
-			communities.forEach((_community) => {
+			communities.forEach(_community => {
 				i++;
 				const community = _community.val();
 				if (community.name === name) return (exists = true);
@@ -34,7 +34,7 @@ export function createCommunity({ name, description, type }, cb, error) {
 		.then(() => {
 			cb();
 		})
-		.catch((err) => {
+		.catch(err => {
 			error(err);
 		});
 }
@@ -44,9 +44,9 @@ export async function getCommunitiesByName(name) {
 	return await db
 		.ref('/communities')
 		.once('value')
-		.then((communities) => {
+		.then(communities => {
 			let matchingCommunities = [];
-			communities.forEach((_community) => {
+			communities.forEach(_community => {
 				const community = _community.val();
 				if (
 					community.name.toLowerCase().includes(name.toLowerCase()) &&
@@ -110,9 +110,9 @@ export async function createPost({ title, body, owner, __community }) {
 	console.log(url);
 	ref
 		.once('value')
-		.then((communities) => {
+		.then(communities => {
 			let i = 0;
-			communities.forEach((_community) => {
+			communities.forEach(_community => {
 				const community = _community.val();
 				if (community.name == __community) {
 					let posts;
@@ -147,8 +147,8 @@ export async function isUserPublic(uid) {
 	return db
 		.ref('/users')
 		.once('value')
-		.then((_users) => {
-			_users.forEach((_user) => {
+		.then(_users => {
+			_users.forEach(_user => {
 				const user = _user.val();
 
 				if (user.uid == uid) {
@@ -166,8 +166,8 @@ export async function getUsernameWithUid(uid) {
 	return db
 		.ref('/users')
 		.once('value')
-		.then((_users) => {
-			_users.forEach((_user) => {
+		.then(_users => {
+			_users.forEach(_user => {
 				const user = _user.val();
 
 				if (user.uid == uid) {
@@ -178,4 +178,8 @@ export async function getUsernameWithUid(uid) {
 		.then(() => {
 			return username;
 		});
+}
+
+export function postComment({ comment, owner, community }) {
+	console.log(comment, owner, community);
 }
