@@ -21,6 +21,8 @@ export default class Post extends React.Component {
 		this.props.postComment({
 			comment: this.state.comment,
 			owner: this.state.owner,
+			postTitle: this.state.title,
+			postOwner: this.state.owner,
 		});
 	};
 

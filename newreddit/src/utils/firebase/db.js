@@ -119,9 +119,9 @@ export async function createPost({ title, body, owner, __community }) {
 					console.log(owner, title);
 					try {
 						posts = community.posts;
-						posts.push({ title, body, owner, url });
+						posts.push({ title, body, owner, url, community: __community });
 					} catch {
-						posts = [{ title, body, owner, url }];
+						posts = [{ title, body, owner, url, community: __community }];
 					}
 					db.ref(`/communities/${Object.keys(communities.val())[i]}`).set({
 						posts,
@@ -180,6 +180,52 @@ export async function getUsernameWithUid(uid) {
 		});
 }
 
-export function postComment({ comment, owner, community }) {
+export function postComment({
+	comment,
+	owner,
+	community,
+	postTitle,
+	postOwner,
+}) {
 	console.log(comment, owner, community);
+
+	db.ref('/communities')
+		.once('value')
+		.then(_communities => {
+			let i = 0;
+			_communities.forEach(__community => {
+				const key = Object.keys(_communities.val())[i];
+				const _community = __community.val();
+				if (_community.name == community) {
+					const _comment = {
+						comment,
+						owner,
+					};
+					db.ref(`/communities/${key}/posts`)
+						.once('value')
+						.then(_posts => {
+							let x = 0;
+							console.log(_posts.val());
+							const posts = _posts.val();
+							_posts.forEach(_post => {
+								const post = _post.val();
+								console.log(post);
+								if (post.title == postTitle && postOwner) {
+									try {
+										posts[x]['comments'].push(_comment);
+									} catch {
+										posts[x].comments = [_comment];
+									}
+
+									console.log(posts, x, posts[x]);
+									db.ref(`/communities/${key}/posts`).set(posts);
+									// console.log(posts);
+								}
+								x++;
+							});
+						});
+				}
+				i++;
+			});
+		});
 }

@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import Navbar from '../../components/Navbar/Navbar';
 import styles from './styles.module.scss';
 import { Dark } from '../../components/Button/Buttons';
-import { auth } from '../../utils/firebase/firebase';
 
 let commentSectionLink;
 
@@ -26,24 +25,9 @@ export default class Community extends React.Component {
 	}
 
 	componentDidMount() {
-		console.log(this.props);
-		console.log(this.state.posts);
 		this.setState({
 			response: true,
 		});
-		// auth.onAuthStateChanged(user => {
-		// 	if (user) {
-		// 		this.setState({
-		// 			user,
-		// 			response: true,
-		// 		});
-		// 	} else {
-		// 		this.setState({
-		// 			user: null,
-		// 			response: true,
-		// 		});
-		// 	}
-		// });
 		commentSectionLink = `/communities/${this.state.name}/post/`;
 	}
 
@@ -69,15 +53,6 @@ export default class Community extends React.Component {
 
 					<div id={styles.posts}>
 						{this.state.posts.map((post, i) => {
-							// const data = {
-							// 	name: this.state.name,
-							// 	description: this.state.description,
-							// 	type: this.state.type,
-							// 	posts: this.state.posts,
-							// 	user: this.state.user,
-							// 	community: this.state.name,
-							// };
-							// console.log(this.state);
 							return (
 								<div key={i} className={styles.postContainer}>
 									<h1>{post.title}</h1>
