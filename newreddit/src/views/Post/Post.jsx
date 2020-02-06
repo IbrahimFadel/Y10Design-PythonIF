@@ -13,15 +13,21 @@ export default class Post extends React.Component {
 			body: this.props.post.body,
 			owner: this.props.post.owner,
 			username: this.props.username,
+			comment: '',
 		};
 	}
 
 	postComment = () => {
-		const comment = document.getElementById(style.commentTextarea).value;
-		console.log('Post: ', comment);
 		this.props.postComment({
-			comment,
+			comment: this.state.comment,
 			owner: this.state.owner,
+		});
+	};
+
+	commentChanged = () => {
+		const comment = document.getElementById('commentTextarea').value;
+		this.setState({
+			comment,
 		});
 	};
 
@@ -51,8 +57,12 @@ export default class Post extends React.Component {
 					</div>
 
 					<div id={style.commentContainer}>
-						<textarea id={style.commentTextarea}></textarea>
-						<Light text="Comment" onclick={this.postComment}></Light>
+						<textarea
+							className={style.commentTextarea}
+							id="commentTextarea"
+							onChange={this.commentChanged}
+						></textarea>
+						<Light text="Comment" onClick={this.postComment}></Light>
 					</div>
 				</div>
 			</div>

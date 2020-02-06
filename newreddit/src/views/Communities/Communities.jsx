@@ -7,6 +7,10 @@ import styles from './styles.module.scss';
 import { Light } from '../../components/Button/Buttons';
 
 export default class Communities extends React.Component {
+	componentDidMount() {
+		console.log(this.props);
+	}
+
 	changed = () => {
 		const search = document.getElementById('search').value;
 		this.props.searchChanged(search);
@@ -22,6 +26,7 @@ export default class Communities extends React.Component {
 				</div>
 				<div id={styles.communitiesContainer}>
 					{this.props.results.map((community, i) => {
+						console.log(community);
 						return (
 							<div key={i} className={styles.community}>
 								<div
@@ -43,7 +48,9 @@ export default class Communities extends React.Component {
 											<Link
 												to={{
 													pathname: `/communities/${community.name}`,
-													state: community,
+													state: {
+														community: community,
+													},
 												}}
 											>
 												<Light text="View"></Light>

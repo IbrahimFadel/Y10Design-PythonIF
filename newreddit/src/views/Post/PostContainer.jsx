@@ -18,7 +18,9 @@ export default class PostContainer extends React.Component {
 	}
 
 	async componentDidMount() {
+		console.log('hi', this.props.location.state);
 		const isPublic = await isUserPublic(this.props.location.state.owner);
+		console.log(isPublic);
 		if (isPublic) {
 			const username = await getUsernameWithUid(
 				this.props.location.state.owner,
@@ -27,11 +29,15 @@ export default class PostContainer extends React.Component {
 				username,
 				ready: true,
 			});
+		} else {
+			this.setState({
+				ready: true,
+			});
 		}
 	}
 
 	postComment = ({ comment, owner }) => {
-		console.log('container');
+		console.log(this.props.location.state);
 		postComment({ comment, owner, community: this.props.location.state.name });
 	};
 

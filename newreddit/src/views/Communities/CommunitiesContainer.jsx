@@ -2,6 +2,7 @@ import React from 'react';
 
 import Communities from './Communities';
 import { getCommunitiesByName } from '../../utils/firebase/db';
+import { auth } from '../../utils/firebase/firebase';
 
 export default class CommunitiesContainer extends React.Component {
 	constructor(props) {
@@ -10,10 +11,29 @@ export default class CommunitiesContainer extends React.Component {
 		this.state = {
 			search: '',
 			results: [],
+			user: null,
+			ready: false,
 		};
 	}
 
-	searchChanged = (search) => {
+	componentDidMount() {
+		auth.onAuthStateChanged(user => {
+			if (user) {
+				console.log('hi');
+				this.setState({
+					user,
+					response: true,
+				});
+			} else {
+				this.setState({
+					user: null,
+					response: true,
+				});
+			}
+		});
+	}
+
+	searchChanged = search => {
 		this.setState(
 			{
 				search,
@@ -32,11 +52,16 @@ export default class CommunitiesContainer extends React.Component {
 	};
 
 	render() {
-		return (
-			<Communities
-				searchChanged={(search) => this.searchChanged(search)}
-				results={this.state.results}
-			></Communities>
-		);
+		if (this.state.response) {
+			return (
+				<Communities
+					searchChanged={search => this.searchChanged(search)}
+					results={this.state.results}
+					user={this.state.user}
+				></Communities>
+			);
+		} else {
+			return <h1>Loading...</h1>;
+		}
 	}
 }
