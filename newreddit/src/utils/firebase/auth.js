@@ -9,8 +9,8 @@ export function createUser({ username, email, password, type }) {
 		.database()
 		.ref('/users/')
 		.once('value')
-		.then((snapshot) => {
-			snapshot.forEach((childsnapshot) => {
+		.then(snapshot => {
+			snapshot.forEach(childsnapshot => {
 				const user = childsnapshot.val();
 				if (user.username === username) {
 					ableToCreateUser = false;
@@ -24,11 +24,11 @@ export function createUser({ username, email, password, type }) {
 				firebase
 					.auth()
 					.createUserWithEmailAndPassword(email, password)
-					.catch((err) => {
+					.catch(err => {
 						Swal.fire('Oops...', err.message, 'error');
 						ableToCreateUser = false;
 					})
-					.then((user) => {
+					.then(user => {
 						if (ableToCreateUser) {
 							newUser = {
 								email,
@@ -80,9 +80,9 @@ async function loginWithUsernameAndPassword({ username, password }) {
 		.database()
 		.ref('/users')
 		.once('value')
-		.then((users) => {
+		.then(users => {
 			let email;
-			users.forEach((_user) => {
+			users.forEach(_user => {
 				const user = _user.val();
 				if (user.username === username) {
 					email = user.email;
@@ -97,11 +97,11 @@ async function loginWithEmailAndPassword({ email, password }) {
 	const user = await firebase
 		.auth()
 		.signInWithEmailAndPassword(email, password)
-		.then((result) => {
+		.then(result => {
 			const user = result.user;
 			return user;
 		})
-		.catch((err) => {
+		.catch(err => {
 			Swal.fire('Oops...', err.message, 'error');
 		});
 	return user;

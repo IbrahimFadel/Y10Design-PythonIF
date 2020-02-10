@@ -48,3 +48,18 @@
 
 .commentTextarea {
 }
+
+#comments {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: center;
+}
+
+.comment {
+	background-color: $dark;
+	padding: 10px;
+	border-radius: 5px;
+	margin-top: 5vh;
+	color: white;
+}

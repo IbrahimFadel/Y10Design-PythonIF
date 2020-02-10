@@ -52,6 +52,7 @@ export default class PostContainer extends React.Component {
 					post={this.props.location.state}
 					username={this.state.username}
 					postComment={this.postComment}
+					comments={this.props.location.state.comments}
 				></Post>
 			);
 		} else {

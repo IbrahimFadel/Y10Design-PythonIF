@@ -187,8 +187,6 @@ export function postComment({
 	postTitle,
 	postOwner,
 }) {
-	console.log(comment, owner, community);
-
 	db.ref('/communities')
 		.once('value')
 		.then(_communities => {
@@ -205,21 +203,16 @@ export function postComment({
 						.once('value')
 						.then(_posts => {
 							let x = 0;
-							console.log(_posts.val());
 							const posts = _posts.val();
 							_posts.forEach(_post => {
 								const post = _post.val();
-								console.log(post);
 								if (post.title == postTitle && postOwner) {
 									try {
 										posts[x]['comments'].push(_comment);
 									} catch {
 										posts[x].comments = [_comment];
 									}
-
-									console.log(posts, x, posts[x]);
 									db.ref(`/communities/${key}/posts`).set(posts);
-									// console.log(posts);
 								}
 								x++;
 							});
