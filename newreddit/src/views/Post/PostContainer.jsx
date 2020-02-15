@@ -6,6 +6,7 @@ import {
 	getUsernameWithUid,
 	postComment,
 } from '../../utils/firebase/db';
+import Swal from 'sweetalert2';
 
 export default class PostContainer extends React.Component {
 	constructor(props) {
@@ -43,6 +44,8 @@ export default class PostContainer extends React.Component {
 			postTitle,
 			postOwner,
 		});
+		Swal.fire('Success!', 'Thanks for commenting!', 'success');
+		this.props.history.push('/');
 	};
 
 	render() {

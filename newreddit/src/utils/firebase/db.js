@@ -116,7 +116,7 @@ export async function createPost({ title, body, owner, __community }) {
 				const community = _community.val();
 				if (community.name == __community) {
 					let posts;
-					console.log(owner, title);
+					console.log(owner, title, __community);
 					try {
 						posts = community.posts;
 						posts.push({ title, body, owner, url, community: __community });
@@ -244,18 +244,11 @@ export const joinCommunity = (name, uid) => {
 						}
 						communities.push(name);
 					} catch {
-						if (communities.includes(name)) {
-							Swal.fire(
-								'Oops!',
-								'You are already a member of this community!',
-								'error',
-							);
-							return;
-						}
 						communities = [name];
 					}
 					const key = Object.keys(_users.val())[i];
 					const ref = db.ref(`/users/${key}`).update({ communities });
+					Swal.fire('Success', `Successfully joined: ${name}!`, 'success');
 				}
 				i++;
 			});
@@ -271,7 +264,11 @@ const getJoinedCommunities = uid => {
 			_users.forEach(_user => {
 				const user = _user.val();
 				if (user.uid === uid) {
-					communities = [...user.communities];
+					try {
+						communities = [...user.communities];
+					} catch {
+						communities = [];
+					}
 				}
 			});
 		})
@@ -307,6 +304,11 @@ export const getFrontPage = async (uid, callback) => {
 		.once('value')
 		.then(_communities => {
 			let communitiesFound = 0;
+			if (_communities.numChildren() == 0) {
+				if (communities.length == 0) {
+					canReturn = true;
+				}
+			}
 			_communities.forEach(_community => {
 				const community = _community.val();
 				for (const name of communities) {

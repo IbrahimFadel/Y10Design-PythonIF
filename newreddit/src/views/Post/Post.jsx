@@ -82,7 +82,7 @@ export default class Post extends React.Component {
 										});
 										return (
 											<div key={i} className={style.comment}>
-												<h5>{comment.owner}</h5>
+												<h5 style={{ fontSize: '0.8em' }}>{comment.owner}</h5>
 												<h3>{comment.comment}</h3>
 											</div>
 										);

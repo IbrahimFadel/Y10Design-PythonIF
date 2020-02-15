@@ -18,7 +18,7 @@ export default class CreateCommunityContainer extends React.Component {
 	}
 
 	componentDidMount() {
-		auth.onAuthStateChanged((user) => {
+		auth.onAuthStateChanged(user => {
 			if (user) {
 				this.setState({
 					user,
@@ -31,19 +31,19 @@ export default class CreateCommunityContainer extends React.Component {
 		});
 	}
 
-	typeChanged = (type) => {
+	typeChanged = type => {
 		this.setState({
 			type: type,
 		});
 	};
 
-	nameChanged = (name) => {
+	nameChanged = name => {
 		this.setState({
 			name,
 		});
 	};
 
-	descriptionChanged = (description) => {
+	descriptionChanged = description => {
 		this.setState({
 			description,
 		});
@@ -133,7 +133,7 @@ export default class CreateCommunityContainer extends React.Component {
 					'success',
 				);
 			},
-			(err) => {
+			err => {
 				Swal.fire('Error', `${err.code} ${err.message}`, 'error');
 				return;
 			},
@@ -152,18 +152,20 @@ export default class CreateCommunityContainer extends React.Component {
 			return;
 		}
 		this.createCommunityInDatabase();
+		Swal.fire('Success', 'Successfully created community!', 'success');
+		this.props.history.push('/communities');
 	};
 
 	render() {
 		return (
 			<CreateCommunity
-				typeChanged={(type) => {
+				typeChanged={type => {
 					this.typeChanged(type);
 				}}
-				nameChanged={(name) => {
+				nameChanged={name => {
 					this.nameChanged(name);
 				}}
-				descriptionChanged={(description) => {
+				descriptionChanged={description => {
 					this.descriptionChanged(description);
 				}}
 				create={this.create}

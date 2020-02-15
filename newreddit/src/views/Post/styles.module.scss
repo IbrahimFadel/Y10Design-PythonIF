@@ -44,6 +44,7 @@
 	justify-content: left;
 	flex-direction: column;
 	align-items: left;
+	margin-top: 5vh;
 }
 
 .commentTextarea {
@@ -62,4 +63,5 @@
 	border-radius: 5px;
 	margin-top: 5vh;
 	color: white;
+	max-width: 50vw;
 }
