@@ -1,4 +1,4 @@
-import Home from './Home/Home';
+import HomeContainer from './Home/HomeContainer';
 import LoginContainer from './Login/LoginContainer';
 import SignupContainer from './Signup/SignupContainer';
 import CommunitiesContainer from './Communities/CommunitiesContainer';
@@ -9,7 +9,7 @@ import CreatePostContainer from './CreatePost/CreatePostContainer';
 import PostContainer from './Post/PostContainer';
 
 const views = {
-	Home: Home,
+	Home: HomeContainer,
 	Login: LoginContainer,
 	Signup: SignupContainer,
 	Communities: CommunitiesContainer,

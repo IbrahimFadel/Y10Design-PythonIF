@@ -222,3 +222,116 @@ export function postComment({
 			});
 		});
 }
+
+export const joinCommunity = (name, uid) => {
+	db.ref('/users')
+		.once('value')
+		.then(_users => {
+			let i = 0;
+			_users.forEach(_user => {
+				const user = _user.val();
+				if (user.uid === uid) {
+					let communities;
+					try {
+						communities = user.communities;
+						if (communities.includes(name)) {
+							Swal.fire(
+								'Oops!',
+								'You are already a member of this community!',
+								'error',
+							);
+							return;
+						}
+						communities.push(name);
+					} catch {
+						if (communities.includes(name)) {
+							Swal.fire(
+								'Oops!',
+								'You are already a member of this community!',
+								'error',
+							);
+							return;
+						}
+						communities = [name];
+					}
+					const key = Object.keys(_users.val())[i];
+					const ref = db.ref(`/users/${key}`).update({ communities });
+				}
+				i++;
+			});
+		});
+};
+
+const getJoinedCommunities = uid => {
+	let communities;
+	return db
+		.ref('/users')
+		.once('value')
+		.then(_users => {
+			_users.forEach(_user => {
+				const user = _user.val();
+				if (user.uid === uid) {
+					communities = [...user.communities];
+				}
+			});
+		})
+		.then(() => {
+			return communities;
+		});
+};
+
+const getPostsFromCommunity = name => {
+	let posts;
+	return db
+		.ref('/communities')
+		.once('value')
+		.then(_communities => {
+			_communities.forEach(_community => {
+				const community = _community.val();
+				if (community.name === name) {
+					posts = community.posts;
+				}
+			});
+		})
+		.then(() => {
+			return posts;
+		});
+};
+
+export const getFrontPage = async (uid, callback) => {
+	let frontPageData = [];
+	let canReturn = false;
+	const communities = await getJoinedCommunities(uid);
+	return db
+		.ref('/communities')
+		.once('value')
+		.then(_communities => {
+			let communitiesFound = 0;
+			_communities.forEach(_community => {
+				const community = _community.val();
+				for (const name of communities) {
+					if (community.name === name) {
+						getPostsFromCommunity(community.name).then(posts => {
+							const communityPosts = {
+								community: community.name,
+								posts,
+							};
+							frontPageData.push(communityPosts);
+							if (communitiesFound === communities.length) {
+								canReturn = true;
+							}
+						});
+						communitiesFound++;
+					}
+				}
+			});
+		})
+		.then(() => {
+			const canReturnInterval = setInterval(() => {
+				if (canReturn) {
+					clearInterval(canReturnInterval);
+					callback(frontPageData);
+				}
+			}, 10);
+		});
+};

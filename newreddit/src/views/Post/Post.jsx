@@ -18,10 +18,6 @@ export default class Post extends React.Component {
 		};
 	}
 
-	// componentDidMount = () => {
-	// this.props.getComments();
-	// };
-
 	postComment = () => {
 		this.props.postComment({
 			comment: this.state.comment,
@@ -45,7 +41,7 @@ export default class Post extends React.Component {
 	};
 
 	render() {
-		const { title, body, owner, username } = this.state;
+		const { title, body, owner, username, comments } = this.state;
 		return (
 			<div>
 				<Navbar></Navbar>
@@ -78,17 +74,25 @@ export default class Post extends React.Component {
 						<Light text="Comment" onClick={this.postComment}></Light>
 
 						<div id={style.comments}>
-							{this.state.comments.map((comment, i) => {
-								getUsernameWithUid(comment.owner).then(res => {
-									this.updateUsernames(res, i);
-								});
-								return (
-									<div key={i} className={style.comment}>
-										<h5>{comment.owner}</h5>
-										<h3>{comment.comment}</h3>
-									</div>
-								);
-							})}
+							{comments ? (
+								<div>
+									{comments.map((comment, i) => {
+										getUsernameWithUid(comment.owner).then(res => {
+											this.updateUsernames(res, i);
+										});
+										return (
+											<div key={i} className={style.comment}>
+												<h5>{comment.owner}</h5>
+												<h3>{comment.comment}</h3>
+											</div>
+										);
+									})}
+								</div>
+							) : (
+								<div>
+									<h1>No Comments!</h1>
+								</div>
+							)}
 						</div>
 					</div>
 				</div>

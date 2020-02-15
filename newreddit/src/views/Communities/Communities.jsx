@@ -7,10 +7,6 @@ import styles from './styles.module.scss';
 import { Light } from '../../components/Button/Buttons';
 
 export default class Communities extends React.Component {
-	componentDidMount() {
-		console.log(this.props);
-	}
-
 	changed = () => {
 		const search = document.getElementById('search').value;
 		this.props.searchChanged(search);
@@ -26,7 +22,6 @@ export default class Communities extends React.Component {
 				</div>
 				<div id={styles.communitiesContainer}>
 					{this.props.results.map((community, i) => {
-						console.log(community);
 						return (
 							<div key={i} className={styles.community}>
 								<div
@@ -42,7 +37,12 @@ export default class Communities extends React.Component {
 								<div className={styles.communityInfo} id={styles.buttons}>
 									<div id={styles.communityButtons}>
 										<div>
-											<Light text="Join"></Light>
+											<Light
+												text="Join"
+												onClick={() => {
+													this.props.joinCommunity(community.name);
+												}}
+											></Light>
 										</div>
 										<div>
 											<Link
