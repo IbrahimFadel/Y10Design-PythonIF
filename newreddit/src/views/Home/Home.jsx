@@ -17,7 +17,6 @@ export default class Home extends React.Component {
 
 	render() {
 		const { user, frontPageData } = this.state;
-		console.log(frontPageData);
 		return (
 			<div>
 				<header>

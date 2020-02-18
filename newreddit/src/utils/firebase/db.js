@@ -107,7 +107,6 @@ function ascii_to_hexa(str) {
 export async function createPost({ title, body, owner, __community }) {
 	const ref = db.ref('/communities');
 	let url = `${ascii_to_hexa(owner)} ${ascii_to_hexa(title)}`;
-	console.log(url);
 	ref
 		.once('value')
 		.then(communities => {
@@ -116,21 +115,17 @@ export async function createPost({ title, body, owner, __community }) {
 				const community = _community.val();
 				if (community.name == __community) {
 					let posts;
-					console.log(owner, title, __community);
 					try {
 						posts = community.posts;
 						posts.push({ title, body, owner, url, community: __community });
 					} catch {
 						posts = [{ title, body, owner, url, community: __community }];
 					}
-					db.ref(`/communities/${Object.keys(communities.val())[i]}`).set({
+					db.ref(`/communities/${Object.keys(communities.val())[i]}`).update({
 						posts,
-						description: community.description,
-						name: community.name,
-						type: community.type,
 					});
-					i++;
 				}
+				i++;
 			});
 		})
 		.then(() => {
@@ -299,6 +294,9 @@ export const getFrontPage = async (uid, callback) => {
 	let frontPageData = [];
 	let canReturn = false;
 	const communities = await getJoinedCommunities(uid);
+	if (communities.length === 0) {
+		return callback([]);
+	}
 	return db
 		.ref('/communities')
 		.once('value')
