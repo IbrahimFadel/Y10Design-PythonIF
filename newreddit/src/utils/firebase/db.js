@@ -1,5 +1,5 @@
 import Swal from 'sweetalert2';
-import { db } from './firebase';
+import { db, storage } from './firebase';
 
 export async function communityExists(name) {
 	const exists = await db
@@ -104,7 +104,7 @@ function ascii_to_hexa(str) {
 	return arr1.join('');
 }
 
-export async function createPost({ title, body, owner, __community }) {
+const createTextPost = ({ title, body, owner, __community }) => {
 	const ref = db.ref('/communities');
 	let url = `${ascii_to_hexa(owner)} ${ascii_to_hexa(title)}`;
 	ref
@@ -135,6 +135,71 @@ export async function createPost({ title, body, owner, __community }) {
 				'success',
 			);
 		});
+};
+
+const createImagePost = ({ title, image, owner, __community }) => {
+	const ref = db.ref('/communities');
+	let url = `${ascii_to_hexa(owner)} ${ascii_to_hexa(title)}`;
+	ref
+		.once('value')
+		.then(communities => {
+			let i = 0;
+			communities.forEach(_community => {
+				const community = _community.val();
+				if (community.name == __community) {
+					let posts;
+					try {
+						posts = community.posts;
+						posts.push({
+							title,
+							image: image.name,
+							owner,
+							url,
+							community: __community,
+							type: 'image',
+						});
+					} catch {
+						posts = [
+							{
+								title,
+								image: image.name,
+								owner,
+								url,
+								community: __community,
+								type: 'image',
+							},
+						];
+					}
+					db.ref(`/communities/${Object.keys(communities.val())[i]}`).update({
+						posts,
+					});
+					storage.ref(`/${__community}/posts/${image.name}`).put(image);
+				}
+				i++;
+			});
+		})
+		.then(() => {
+			Swal.fire(
+				'Success',
+				`You successfully posted to ${__community}!`,
+				'success',
+			);
+		});
+};
+
+export async function createPost({
+	title,
+	body,
+	owner,
+	__community,
+	type,
+	image,
+}) {
+	if (type === 'text') {
+		createTextPost({ title, body, owner, __community });
+	} else {
+		createImagePost({ title, image, owner, __community });
+	}
 }
 
 export async function isUserPublic(uid) {

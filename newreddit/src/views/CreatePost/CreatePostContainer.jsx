@@ -15,7 +15,7 @@ export default class PostContainer extends React.Component {
 	}
 
 	componentDidMount() {
-		auth.onAuthStateChanged((user) => {
+		auth.onAuthStateChanged(user => {
 			if (user) {
 				this.setState({
 					uid: user.uid,
@@ -28,18 +28,20 @@ export default class PostContainer extends React.Component {
 		});
 	}
 
-	postTypeChanged = (postType) => {
+	postTypeChanged = postType => {
 		this.setState({
 			postType,
 		});
 	};
 
-	createPost = ({ title, body, owner, community }) => {
+	createPost = ({ title, body, owner, community, type, image }) => {
 		createPost({
 			title,
 			body,
 			owner,
 			__community: community,
+			type,
+			image,
 		}).then(() => {
 			this.props.history.push(`/`);
 		});

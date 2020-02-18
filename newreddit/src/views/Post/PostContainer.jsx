@@ -52,10 +52,11 @@ export default class PostContainer extends React.Component {
 		if (this.state.ready) {
 			return (
 				<Post
-					post={this.props.location.state}
+					post={this.props.location.state.post}
 					username={this.state.username}
 					postComment={this.postComment}
-					comments={this.props.location.state.comments}
+					comments={this.props.location.state.post.comments}
+					images={this.props.location.state.images}
 				></Post>
 			);
 		} else {

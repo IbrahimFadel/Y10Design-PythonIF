@@ -22,15 +22,18 @@ export default class Post extends React.Component {
 	post = async () => {
 		const title = document.getElementById('title').value;
 		let body;
+		let image;
 		if (this.props.postType === 'text') {
 			body = document.getElementById('body').value;
 		} else {
-			Swal.fire('Error', "Sorry, currently, you can't post images", 'error');
+			image = document.getElementById('image-selector').files[0];
 		}
 		const post = {
 			title,
 			body,
+			image,
 			owner: this.props.uid,
+			type: this.props.postType,
 		};
 
 		this.props.createPost({
@@ -38,6 +41,8 @@ export default class Post extends React.Component {
 			body: post.body,
 			owner: post.owner,
 			community: this.state.community.name,
+			type: post.type,
+			image: post.image,
 		});
 	};
 
@@ -85,7 +90,7 @@ export default class Post extends React.Component {
 							) : (
 								<div>
 									<label>Image</label>
-									<input type="file"></input>
+									<input type="file" id="image-selector"></input>
 								</div>
 							)}
 						</div>

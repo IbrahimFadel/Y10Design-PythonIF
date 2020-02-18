@@ -6,6 +6,7 @@ import styles from './styles.module.scss';
 import { Dark } from '../../components/Button/Buttons';
 
 let commentSectionLink;
+let images;
 
 export default class Community extends React.Component {
 	constructor(props) {
@@ -24,12 +25,13 @@ export default class Community extends React.Component {
 		};
 	}
 
-	componentDidMount() {
+	componentDidMount = async () => {
+		commentSectionLink = `/communities/${this.state.name}/post/`;
+		images = await this.props.getImageUrls(this.state.posts);
 		this.setState({
 			response: true,
 		});
-		commentSectionLink = `/communities/${this.state.name}/post/`;
-	}
+	};
 
 	render() {
 		if (this.state.response) {
@@ -57,12 +59,23 @@ export default class Community extends React.Component {
 								<div key={i} className={styles.postContainer}>
 									<h1>{post.title}</h1>
 									<hr className={styles.seperator}></hr>
-									<p>{post.body}</p>
+									{console.log(post.image, images.get(post.image))}
+									{post.type === 'image' ? (
+										<img
+											src={images.get(post.image)}
+											className={styles.postImage}
+										></img>
+									) : (
+										<p>{post.body}</p>
+									)}
 									<br></br>
 									<Link
 										to={{
 											pathname: `${commentSectionLink}${post.url}`,
-											state: post,
+											state: {
+												post,
+												images,
+											},
 										}}
 									>
 										<p className={styles.postLink}>Comments</p>
