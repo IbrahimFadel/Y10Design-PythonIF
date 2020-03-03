@@ -1,6 +1,10 @@
 import Swal from 'sweetalert2';
 import { db, storage } from './firebase';
 
+/**
+ * Check if a community has already been created given a name
+ * @param {String} name
+ */
 export async function communityExists(name) {
 	const exists = await db
 		.ref('/communities')
@@ -23,6 +27,12 @@ export async function communityExists(name) {
 	return exists;
 }
 
+/**
+ *
+ * @param {Object} details
+ * @param {Function} callback
+ * @param {Function} errorCallback
+ */
 export function createCommunity({ name, description, type }, cb, error) {
 	db.ref('/communities')
 		.push({
@@ -39,6 +49,10 @@ export function createCommunity({ name, description, type }, cb, error) {
 		});
 }
 
+/**
+ * Get all communities that match a search query
+ * @param {String} name
+ */
 export async function getCommunitiesByName(name) {
 	if (name === '') return [];
 	return await db
@@ -59,10 +73,18 @@ export async function getCommunitiesByName(name) {
 		});
 }
 
+/**
+ * Convert string to base 16 hexadecimal
+ * @param {String} d
+ */
 function d2h(d) {
 	return d.toString(16);
 }
 
+/**
+ * Convert base 16 string to regurlar ascii text
+ * @param {String} h
+ */
 function h2d(h) {
 	return parseInt(h, 16);
 }
@@ -104,6 +126,10 @@ function ascii_to_hexa(str) {
 	return arr1.join('');
 }
 
+/**
+ * Create a text post
+ * @param {Object} options
+ */
 const createTextPost = ({ title, body, owner, __community }) => {
 	const ref = db.ref('/communities');
 	let url = `${ascii_to_hexa(owner)} ${ascii_to_hexa(title)}`;
@@ -137,6 +163,10 @@ const createTextPost = ({ title, body, owner, __community }) => {
 		});
 };
 
+/**
+ * Create an image post
+ * @param {Object} options
+ */
 const createImagePost = ({ title, image, owner, __community }) => {
 	const ref = db.ref('/communities');
 	let url = `${ascii_to_hexa(owner)} ${ascii_to_hexa(title)}`;
@@ -187,6 +217,10 @@ const createImagePost = ({ title, image, owner, __community }) => {
 		});
 };
 
+/**
+ * Create post
+ * @param {Object} options
+ */
 export async function createPost({
 	title,
 	body,
@@ -202,6 +236,10 @@ export async function createPost({
 	}
 }
 
+/**
+ * Check if a user is of type public given its user id
+ * @param {String} uid
+ */
 export async function isUserPublic(uid) {
 	let isPublic = false;
 	return db
@@ -221,6 +259,10 @@ export async function isUserPublic(uid) {
 		});
 }
 
+/**
+ * Get a user's username given its user id
+ * @param {String} uid
+ */
 export async function getUsernameWithUid(uid) {
 	let username;
 	return db
@@ -240,6 +282,10 @@ export async function getUsernameWithUid(uid) {
 		});
 }
 
+/**
+ * Post a comment
+ * @param {Object} options
+ */
 export function postComment({
 	comment,
 	owner,
@@ -283,6 +329,11 @@ export function postComment({
 		});
 }
 
+/**
+ * Have a user join a community given the user's user id, and the community name
+ * @param {String} name
+ * @param {String} uid
+ */
 export const joinCommunity = (name, uid) => {
 	db.ref('/users')
 		.once('value')
@@ -315,6 +366,10 @@ export const joinCommunity = (name, uid) => {
 		});
 };
 
+/**
+ * Retrieve all of the communities a user has joined
+ * @param {String} uid
+ */
 const getJoinedCommunities = uid => {
 	let communities;
 	return db
@@ -337,6 +392,10 @@ const getJoinedCommunities = uid => {
 		});
 };
 
+/**
+ * Get all of the posts from a community given its name
+ * @param {String} name
+ */
 const getPostsFromCommunity = name => {
 	let posts;
 	return db
@@ -355,6 +414,11 @@ const getPostsFromCommunity = name => {
 		});
 };
 
+/**
+ * Retrieve all of the posts from all communities a user has joined, and return them in a renderable format
+ * @param {String} uid
+ * @param {Function} callback
+ */
 export const getFrontPage = async (uid, callback) => {
 	let frontPageData = [];
 	let canReturn = false;
