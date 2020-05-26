@@ -1,4 +1,15 @@
+/**
+* dataMap will store the data for each timeline card.
+* The keys will be: card-i
+* The values are the objects in dataArray
+* This map is propagated in the for loop under itemClicked
+*/
 const dataMap = new Map();
+
+/**
+ * This is an array containing the data for each card
+ * Each object eventually gets inserted into the dataMap
+ */
 const dataArray = [
 	{
 		title: 'Alan Turing',
@@ -106,9 +117,14 @@ const dataArray = [
 	}
 ];
 
+/**
+ * HtmlCollection of the cards from the timeline
+ */
 const items = document.getElementsByClassName('timeline-content');
-let i = 0;
 
+/**
+ * Given the data from dataMap, generate the body of the modal for a given card
+ */
 const getHtml = ({ elements: els, sources }) => {
 	let strings = [];
 	for (const el of els) {
@@ -130,6 +146,10 @@ const getHtml = ({ elements: els, sources }) => {
 	return html;
 };
 
+/**
+ * Callback for when a timeline item is clicked
+ * Get the title, and body, then open a modal with sweetalert
+ */
 const itemClicked = (item, i) => {
 	const itemsArr = [...items];
 	const data = dataMap.get(`card-${itemsArr.indexOf(item)}`);
@@ -145,6 +165,15 @@ const itemClicked = (item, i) => {
 	});
 };
 
+/**
+ * Keep track of the iterations to name the keys for the dataMap
+ */
+let i = 0;
+
+/**
+ * Propagate dataMap
+ * Set the event listeners for each card
+ */
 for (const item of items) {
 	dataMap.set(`card-${i}`, dataArray[i]);
 
