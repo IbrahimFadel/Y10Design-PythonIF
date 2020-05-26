@@ -69,7 +69,8 @@
   -webkit-box-shadow: 0 3px 0 rgba(0, 0, 0, 0.1);
   -moz-box-shadow: 0 3px 0 rgba(0, 0, 0, 0.1);
   -ms-box-shadow: 0 3px 0 rgba(0, 0, 0, 0.1);
-  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.1);
+  /* box-shadow: 3px 3px 0 rgba(0, 0, 0, 1); */
+  box-shadow: 5px 5px 8px #cccccc;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   -ms-border-radius: 5px;
@@ -78,6 +79,10 @@
   -moz-transition: all 0.3s ease;
   -ms-transition: all 0.3s ease;
   transition: all 0.3s ease;
+}
+#timeline .timeline-item .timeline-content:hover {
+  cursor: pointer;
+  box-shadow: 2px 2px 3px #cccccc;
 }
 #timeline .timeline-item .timeline-content h2 {
   padding: 15px;
