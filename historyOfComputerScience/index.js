@@ -233,6 +233,16 @@ const items = document.getElementsByClassName('timeline-content');
  * Given the data from dataMap, generate the body of the modal for a given card
  */
 const getHtml = ({ elements: els, sources, demos }) => {
+
+	/**
+	 * Here, we go through all the data
+	 * and generate the HTML line by line
+	 * First for the variable html tags(could be h1, p, h5, or literally anything)
+	 * Next we do the code demos(only if there are any)
+	 * Finally, if there are sources/further reading links, add those.
+	 * The last step is to join all the strings into one big one
+	 */
+
 	let strings = [];
 	for (const el of els) {
 		const tag = Object.keys(el)[0];
@@ -266,11 +276,30 @@ const getHtml = ({ elements: els, sources, demos }) => {
  * Get the title, and body, then open a modal with sweetalert
  */
 const itemClicked = (item, i) => {
+	/**
+	 * ES6 array spread syntax
+	 * Copy an array
+	 */
 	const itemsArr = [...items];
+	/**
+	 * Get data form map based on name of card
+	 */
 	const data = dataMap.get(`card-${itemsArr.indexOf(item)}`);
 
+	/**
+	 * Generate html and store into string
+	 * with the data from dataMap
+	 */
 	const html = getHtml(data);
 
+	/**
+	 * Create the modal with a
+	 * custom class to override the library styling
+	 * And some custom data
+	 *
+	 * Since the field html, shares a name with the data,
+	 * We don't need to do "html: html", "html" is fine
+	 */
 	Swal.fire({
 		title: `${data['title']}`,
 		html,
@@ -290,8 +319,14 @@ let i = 0;
  * Set the event listeners for each card
  */
 for (const item of items) {
+	/**
+	 * For every card, add the corresponding data to the map
+	 */
 	dataMap.set(`card-${i}`, dataArray[i]);
 
+	/**
+	 * Set the event listener for every timeline card
+	 */
 	item.onclick = () => {
 		itemClicked(item, i);
 	};
