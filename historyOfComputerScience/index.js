@@ -1,4 +1,10 @@
 /**
+ * Trivia?
+ * Test w/ friends
+ * Demo program for each lang
+ */
+
+/**
 * dataMap will store the data for each timeline card.
 * The keys will be: card-i
 * The values are the objects in dataArray
@@ -30,6 +36,7 @@ const dataArray = [
 			'https://plato.stanford.edu/entries/turing-machine',
 			'https://www.iwm.org.uk/history/how-alan-turing-cracked-the-enigma-code'
 		],
+		demos: []
 	},
 	{
 		title: 'NASA Computers',
@@ -43,6 +50,7 @@ const dataArray = [
 			'https://www.theatlantic.com/science/archive/2019/07/underappreciated-power-apollo-computer/594121/',
 			'https://history.nasa.gov/computers/Ch2-5.html'
 		],
+		demos: []
 	},
 	{
 		title: 'First Languages',
@@ -64,6 +72,25 @@ const dataArray = [
 			'https://www.computerworld.com/article/2499721/arm-goes-64-bit-with-new-armv8-chip-architecture.html',
 			'https://www.mips.com/products/architectures/mips64/'
 		],
+		demos: [
+			`/*** Example Assembly Code ***/
+segment .text	   ;code segment
+   global _start    ;must be declared for linker
+
+_start:	           ;tell linker entry point
+   mov edx,len	   ;message length
+   mov ecx,msg     ;message to write
+   mov ebx,1	   ;file descriptor (stdout)
+   mov eax,4	   ;system call number (sys_write)
+   int 0x80	   ;call kernel
+
+   mov eax,1       ;system call number (sys_exit)
+   int 0x80	   ;call kernel
+
+segment .data      ;data segment
+msg	db 'Hello, world!',0xa   ;our dear string
+len	equ	$ - msg          ;length of our dear string`
+		]
 	},
 	{
 		title: 'Foundation Years',
@@ -76,6 +103,27 @@ const dataArray = [
 		sources: [
 			'https://www.toptal.com/c/after-all-these-years-the-world-is-still-powered-by-c-programming',
 			'https://www.cl.cam.ac.uk/archive/mjcg/papers/HolHistory.pdf'
+		],
+		demos: [
+			`/*** Example C Code ***/
+#include &lt;stdio.h&gt;
+
+int main(void)
+{
+    printf("hello, world");
+
+    uint8_t my_8bit_unsigned_integer = 255;
+
+    // my_8bit_unsigned_integer cannot go over 255
+
+    const char *my_string;
+
+    uint8_t int_ptr = &my_8bit_unsigned_integer;
+
+    printf("my_8bit_unsigned_integer: %d", *int_ptr);
+
+    return 0;
+}`
 		]
 	},
 	{
@@ -87,6 +135,27 @@ const dataArray = [
 		],
 		sources: [
 			'https://hackr.io/blog/features-uses-applications-of-c-plus-plus-language'
+		],
+		demos: [
+			`/*** Example C++ Code ***/
+
+#include &lt;iostream&gt;
+
+int main()
+{
+    std::cout << "Hello, World!" << std::endl;
+
+    uint64_t my_large_int = 1234556;
+
+    auto large_int_ptr = &my_large_int;
+
+    std::cout << "Pointer address: " << large_int_ptr << ". Address Value: " << *large_int_ptr << std::endl;
+
+    // Overall extremely similar to C. C code is valid C++ code, but not vice versa
+
+    return 0;
+}
+`
 		]
 	},
 	{
@@ -99,6 +168,22 @@ const dataArray = [
 		],
 		sources: [
 			'https://gotechark.com/blog/importance-javascript/'
+		],
+		demos: [
+			`/*** Example Javascript Code ***/
+const my_num = 10;
+const arr = ["hi", "there", "this", "is", "JS"] // no semicolon needed
+for(const word of arr) {
+    console.log(word);
+}
+
+const my_fn = param1 => {
+    return {
+        success: true,
+        data: param1
+    }
+}
+`
 		]
 	},
 	{
@@ -113,6 +198,28 @@ const dataArray = [
 			'https://codewithandrea.com/articles/2018-12-27-dart-vs-swift-a-comparison/',
 			'https://blog.codemagic.io/flutter-vs-swift/',
 			'https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html'
+		],
+		demos: [
+			`/*** Example Rust Code ***/
+fn main() {
+    let an_integer = 1u32;
+    let a_boolean = true;
+    let unit = ();
+
+    // copy 'an_integer' into 'copied_integer'
+    let copied_integer = an_integer;
+
+    println!("An integer: {:?}", copied_integer);
+    println!("A boolean: {:?}", a_boolean);
+    println!("Meet the unit value: {:?}", unit);
+
+    // The compiler warns about unused variable bindings; these warnings can
+    // be silenced by prefixing the variable name with an underscore
+    let _unused_variable = 3u32;
+
+    let noisy_unused_variable = 2u32;
+    // FIXME ^ Prefix with an underscore to suppress the warning
+}`
 		]
 	}
 ];
@@ -125,12 +232,20 @@ const items = document.getElementsByClassName('timeline-content');
 /**
  * Given the data from dataMap, generate the body of the modal for a given card
  */
-const getHtml = ({ elements: els, sources }) => {
+const getHtml = ({ elements: els, sources, demos }) => {
 	let strings = [];
 	for (const el of els) {
 		const tag = Object.keys(el)[0];
 		const text = Object.values(el)[0];
 		strings.push(`<${tag}>${text}</${tag}>`);
+	}
+
+	if(demos.length > 0) {
+		for(const demo of demos) {
+			strings.push(
+				`<code class='code'>${demo}</code>`
+			);
+		}
 	}
 
 	if (sources.length > 0) {

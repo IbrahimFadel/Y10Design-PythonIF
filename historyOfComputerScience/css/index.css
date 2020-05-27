@@ -2,7 +2,51 @@
   font-family: 'Raleway', sans-serif;
 }
 
+body {
+  animation: fadeInContent 3s;
+}
+
+@keyframes fadeInContent {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 100%;
+  }
+}
+
+#title {
+  text-align: center;
+  margin-top: 10vh;
+  margin-bottom: 10vh;
+}
+
 .popup-class {
   width: 90vw !important;
-  height: 90vh !important;
+  /*height: 90vh !important;*/
+  /*margin-top: 15vh !important;*/
+  /*margin-bottom: 15vh !important;*/
+}
+
+#videos {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#videos h2 {
+  margin-top: 10vh;
+}
+
+.code {
+  width: 90%;
+  text-align: left;
+  background-color: #cecece;
+  display:inline-block;
+  border-radius: 3px;
+  padding: 10px;
+  white-space: pre-wrap;
 }
